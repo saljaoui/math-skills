@@ -68,8 +68,7 @@ func Variance(data []int) float64 {
 	for _, s := range data {
 		diff := avrg - float64(s)
 		sum += diff * diff
-	}
-
+	} 
 	return sum / float64(len(data))
 }
 
