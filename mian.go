@@ -10,27 +10,32 @@ import (
 )
 
 func main() {
-	file, err := os.ReadFile("./stat-bin-dockerized/stat-bin/data.txt")
-	if err != nil {
-		log.Fatal(err)
+	if len(os.Args) != 2 {
+		log.Fatal("usage: go run . [data.txt]")
+		return
 	}
-	content := strings.Split(string(file), "\r\n")
+
+	fileName := os.Args[1]
+	file, err := os.ReadFile("./stat-bin-dockerized/stat-bin/" + fileName)
+	if err != nil {
+		log.Fatalf("error reading file: %v", err)
+	}
+	content := strings.Split(string(file), "\n")
 	var data []int
 	for _, s := range content {
 		if s != "" {
 			i, err := strconv.Atoi(s)
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalf("invalid integer in file: %v", err)
 			}
 			data = append(data, i)
 		}
-
 	}
 
-	fmt.Println("Average:", Average(data))
-	fmt.Println("Median:", Median(data))
-	fmt.Println("Variance:", Variance(data))
-	fmt.Println("Standard Deviation:", StandardDeviation(Variance(data)))
+	fmt.Println("Average:", int(math.Round(Average(data))))
+	fmt.Println("Median:", int(math.Round(Median(data))))
+	fmt.Println("Variance:", int(math.Round(Variance(data))))
+	fmt.Println("Standard Deviation:", int(math.Round(StandardDeviation(Variance(data)))))
 }
 
 func Average(data []int) float64 {
@@ -68,7 +73,7 @@ func Variance(data []int) float64 {
 	for _, s := range data {
 		diff := avrg - float64(s)
 		sum += diff * diff
-	} 
+	}
 	return sum / float64(len(data))
 }
 
