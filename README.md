@@ -18,7 +18,7 @@ This Go program performs basic statistical analysis on a list of integers read f
     go run . [data.txt]
     ```
 
-   Replace `[data.txt]` with the path to your actual data file.
+   Replace `[data.txt]` with the path to your actual data file
 
 ## Example
 
